@@ -26,7 +26,7 @@ const LoginForm = () => {
                 <Text style={styles.prefixText}>+964 - </Text>
                 <TextInput
                     style={styles.inputText}
-                    placeholder="Enter your username or email"
+                    placeholder=""
                     placeholderTextColor="#003f5c"
                     onChangeText={(text) => setUsername(text)}
                 />
@@ -34,7 +34,7 @@ const LoginForm = () => {
             <View style={styles.inputView}>
                 <TextInput
                     style={styles.inputText}
-                    placeholder="Password"
+                    placeholder=""
                     placeholderTextColor="#003f5c"
                     secureTextEntry
                     onChangeText={(text) => setPassword(text)}
@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
     },
     inputText: {
         height: 50,
+        flex: 1,
         color: 'black',
     },
     loginBtn: {
@@ -144,9 +145,11 @@ const styles = StyleSheet.create({
         color: 'black',
     },
     prefixText: {
-        height: 50,
         color: 'black',
-        textAlignVertical: 'center',
+        marginRight: 5,
+        height: 50,
+        alignItems: 'center',
+        textAlignVertical:'center'
     },
     loginText: {
         color: 'white',

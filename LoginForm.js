@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text,Image, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 
 
@@ -13,29 +13,62 @@ const LoginForm = () => {
     };
     const handleLogin = () => {
         // Implement login logic here
+
+        if (!username.trim() || !password.trim()) {
+            alert('Username or password cannot be empty');
+            return;
+        } else if (!/^\d{11}$/.test(username)) {
+            alert('Username must be an 11-digit number');
+            return;
+        }
         console.log('Username:', username);
         console.log('Password:', password);
         console.log('Remember Me:', isSelected);
         console.log('Remember me:', rememberMe);
     };
 
+    const handleUsernameChange = (text) => {
+        // Only allow up to 11 digits
+        if (text.length <= 10) {
+            // Check if input contains only numeric characters
+            if (/^\d*$/.test(text)) {
+                setUsername(text);
+            } else {
+                alert('Please enter only numeric characters');
+            }
+        }
+    };
+    const handleTermsConditionsPress = () => {
+        // Handle terms and conditions press
+        console.log('Terms & Conditions pressed');
+    };
+
     return (
         <View style={styles.container}>
-            <Text style={styles.subtitle}>Pay via </Text>
+            <View style={styles.container}>
+                <Text style={styles.text}>Text with Image:</Text>
+                <View style={styles.inline}>
+                    <Text style={styles.subtitle}>Pay via: </Text>
+                    <Image source={require('./path/to/your/fast_pay.png')} style={styles.image} />
+                </View>
+            </View>
             <View style={styles.inputView}>
-                <Text style={styles.prefixText}>+964 - </Text>
+                <Text style={styles.prefixText}>+964 -</Text>
                 <TextInput
                     style={styles.inputText}
-                    placeholder=""
-                    placeholderTextColor="#003f5c"
-                    onChangeText={(text) => setUsername(text)}
+                    placeholder="Phone number"
+                    placeholderTextColor="#8f9496"
+                    onChangeText={handleUsernameChange}
+                    keyboardType="phone-pad"
+                    value={username}
+
                 />
             </View>
             <View style={styles.inputView}>
                 <TextInput
                     style={styles.inputText}
-                    placeholder=""
-                    placeholderTextColor="#003f5c"
+                    placeholder="Password"
+                    placeholderTextColor="#8f9496"
                     secureTextEntry
                     onChangeText={(text) => setPassword(text)}
                 />
@@ -43,13 +76,13 @@ const LoginForm = () => {
             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
                 <TouchableOpacity onPress={() => setRememberMe(!rememberMe)}>
                     <View style={{ width: 20, height: 20, borderWidth: 1, marginRight: 10 }}>
-                        {rememberMe && <View style={{ flex: 1, backgroundColor: 'blue' }} />}
+                        {rememberMe && <View style={{ flex: 1, backgroundColor: '#05a7ec' }} />}
                     </View>
                 </TouchableOpacity>
                 <View style={{ justifyContent: 'center' }}>
                     <Text style={{ color: '#0c0c0c' }}>I accept the</Text>
                 </View>
-                <TouchableOpacity onPress={handlePress}>
+                <TouchableOpacity onPress={handleTermsConditionsPress}>
                     <Text style={{ color: '#05a7ec' }}> Terms & Conditions</Text>
                 </TouchableOpacity>
             </View>
@@ -57,14 +90,13 @@ const LoginForm = () => {
             <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
                 <Text style={styles.loginText}>PROCEED TO PAY 255 IQD</Text>
             </TouchableOpacity>
-
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 2,
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
@@ -80,9 +112,8 @@ const styles = StyleSheet.create({
     },
     subtitle: {
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 16,
         color: '#2d2a2a',
-        marginTop: 20
     },
     normalText: {
         fontWeight: 'normal',
@@ -118,6 +149,8 @@ const styles = StyleSheet.create({
         height: 50,
         flex: 1,
         color: 'black',
+        alignSelf: 'center',
+        alignItems: 'center',
     },
     loginBtn: {
         width: '80%',
@@ -150,6 +183,17 @@ const styles = StyleSheet.create({
         height: 50,
         alignItems: 'center',
         textAlignVertical:'center'
+    },
+    inline: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        textAlignVertical: 'center',
+    },
+    image: {
+        width: 60,
+        height: 60,
+        marginTop: 5,
+        resizeMode: 'contain',
     },
     loginText: {
         color: 'white',
